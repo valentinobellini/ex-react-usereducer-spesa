@@ -12,15 +12,34 @@ const products = [
 
 export default function ShoppingList() {
 
-
     const [addedProducts, setAddedProducts] = useState([]);
 
     function addToCart(product) {
         const alreadyInCart = addedProducts.some((p) => p.name === product.name)
-        if (!alreadyInCart) {
+        if (alreadyInCart) {
+            updateProductQuantity(product.name)
+        } else {
             setAddedProducts([...addedProducts, { ...product, quantity: 1 }])
         }
     }
+
+    function updateProductQuantity(productName) {
+        const updatedCart = addedProducts.map(p => {
+            if (p.name === productName) {
+                return { ...p, quantity: p.quantity + 1 }
+            }
+            return p;
+        })
+
+        setAddedProducts(updatedCart)
+    }
+
+
+    function removeFromCart(productName) {
+        const updatedCart = addedProducts.filter(p => p.name !== productName);
+        setAddedProducts(updatedCart)
+    }
+
 
 
     return (
@@ -69,11 +88,23 @@ export default function ShoppingList() {
                                                 <span className="name">quantità: </span>
                                                 {product.quantity}
                                             </p>
+                                            <button
+                                                onClick={() => removeFromCart(product.name)}
+
+                                            >
+                                                Rimuovi dal carrello
+                                            </button>
 
                                         </li>)
                                 })}
                             </ul>
+
+                            <p className="total">
+                                Totale da pagare: {addedProducts.reduce((acc, p) => acc + p.price * p.quantity, 0).toFixed(2)} €
+                            </p>
+
                         </div>
+
                     </>
                 )}
 
