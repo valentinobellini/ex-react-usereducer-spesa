@@ -16,6 +16,7 @@ export default function ShoppingList() {
 
     function addToCart(product) {
         const alreadyInCart = addedProducts.some((p) => p.name === product.name)
+
         if (alreadyInCart) {
             updateProductQuantity(product.name)
         } else {
@@ -23,10 +24,17 @@ export default function ShoppingList() {
         }
     }
 
-    function updateProductQuantity(productName) {
+    function updateProductQuantity(productName, newQuantity) {
+
+        const quantity = parseInt(newQuantity)
+
+        if (isNaN(quantity) || quantity < 1) {
+            return;
+        }
+
         const updatedCart = addedProducts.map(p => {
             if (p.name === productName) {
-                return { ...p, quantity: p.quantity + 1 }
+                return { ...p, quantity }
             }
             return p;
         })
@@ -84,10 +92,22 @@ export default function ShoppingList() {
                                                 <span className="price">prezzo: </span>
                                                 {product.price.toFixed(2)} €
                                             </p>
-                                            <p>
+                                            {/* <p>
                                                 <span className="name">quantità: </span>
                                                 {product.quantity}
-                                            </p>
+                                            </p> */}
+
+                                            <label>
+                                                <span className="name">quantità: </span>
+                                                <input
+                                                    type="number"
+                                                    min='1'
+                                                    value={product.quantity}
+                                                    onChange={(e) => updateProductQuantity(product.name, e.target.value)}
+                                                />
+                                            </label>
+
+
                                             <button
                                                 onClick={() => removeFromCart(product.name)}
 
