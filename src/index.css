@@ -9,6 +9,10 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+
+
+/* shopping list */
+
 .shopping_list {
   margin: 20px;
   padding: 20px;
@@ -34,4 +38,14 @@ h1 {
 
 .price {
   font-weight: 600;
+}
+
+
+/* shopping cart */
+.cart {
+  margin-top: 60px;
+}
+
+.cart h2 {
+  margin-bottom: 30px;
 }
